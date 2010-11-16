@@ -73,9 +73,9 @@ public class Transition3d extends Activity implements
         mImageView.setFocusable(true);
         mImageView.setOnClickListener(this);
 
-        // Since we are caching large views, we want to keep their cache
-        // between each animation
-        //保存试图的缓存信息（因为要旋转所以我们需要保存视图的缓存信息）
+        /** Since we are caching large views, we want to keep their cache
+            between each animation
+            保存试图的缓存信息（因为要旋转所以我们需要保存视图的缓存信息）*/
         mContainer.setPersistentDrawingCache(ViewGroup.PERSISTENT_ANIMATION_CACHE);
     }
 
