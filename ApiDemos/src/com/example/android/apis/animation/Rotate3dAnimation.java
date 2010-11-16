@@ -64,13 +64,27 @@ public class Rotate3dAnimation extends Animation {
         mDepthZ = depthZ;
         mReverse = reverse;
     }
-
-    @Override
+    /**
+     *  重载父类中的方法实现初始化
+     *  TranslateAnimation、RotateAnimation、AlphaAnimation 等是 Animation 的 子类，
+     *  分别实现了平移、旋转、改变 Alpha 值等动画
+     *  调用 invalidate 刷新屏幕，启动动画
+     *  在 onDraw 函数中：
+        * 调用动画的 getTransformation 方法(即调用applyTransformation（）)，得到当前时间点的矩阵
+        * 将该矩阵设置成 Canvas 的当前矩阵
+        * 调用 canvas 的 drawBitmap 方法，绘制屏幕。
+        * 判断 getTransformation 的返回值，若为真，调用 invalidate 方法，刷新屏幕进入下一桢；若为假，说明动画完成
+     */
+   @Override
     public void initialize(int width, int height, int parentWidth, int parentHeight) {
         super.initialize(width, height, parentWidth, parentHeight);
         mCamera = new Camera();
     }
-    //生成Transformation  
+   /**
+    * 每个动画都重载了父类的 applyTransformation 方法，这个方法会被父类的 getTransformation 方法调用
+    * Transformation 记录了仿射矩阵 Matrix，动画每触发一次，会对原来的矩阵做一次运算， View 的 Bitmap 与这个矩阵相乘就可实现相应的操作(旋转、平移、缩放等)。
+      Transformation 类封装了矩阵和 alpha 值，它有两个重要的成员，一是 mMatrix，二是 mAlpha。 
+    */
     @Override
     protected void applyTransformation(float interpolatedTime, Transformation t) {
         final float fromDegrees = mFromDegrees;
