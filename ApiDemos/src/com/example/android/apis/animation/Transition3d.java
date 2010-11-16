@@ -58,6 +58,7 @@ public class Transition3d extends Activity implements
 
         mPhotosList = (ListView) findViewById(android.R.id.list);
         mImageView = (ImageView) findViewById(R.id.picture);
+        //FrameLayout
         mContainer = (ViewGroup) findViewById(R.id.container);
 
         // Prepare the ListView
@@ -74,35 +75,44 @@ public class Transition3d extends Activity implements
 
         // Since we are caching large views, we want to keep their cache
         // between each animation
+        //保存试图的缓存信息（因为要旋转所以我们需要保存视图的缓存信息）
         mContainer.setPersistentDrawingCache(ViewGroup.PERSISTENT_ANIMATION_CACHE);
     }
 
     /**
      * Setup a new 3D rotation on the container view.
      *
-     * @param position the item that was clicked to show a picture, or -1 to show the list
-     * @param start the start angle at which the rotation must begin
-     * @param end the end angle of the rotation
+     * @param position the item that was clicked to show a picture, or -1 to show the list 点击item展示图片或者list
+     * @param start the start angle at which the rotation must begin  开始旋转的角度
+     * @param end the end angle of the rotation 结束旋转的角度
      */
     private void applyRotation(int position, float start, float end) {
         // Find the center of the container
         final float centerX = mContainer.getWidth() / 2.0f;
         final float centerY = mContainer.getHeight() / 2.0f;
-
+         
         // Create a new 3D rotation with the supplied parameter
+        //监听器提供出发下一个动画
         // The animation listener is used to trigger the next animation
-        final Rotate3dAnimation rotation =
-                new Rotate3dAnimation(start, end, centerX, centerY, 310.0f, true);
+        final Rotate3dAnimation rotation = new Rotate3dAnimation(start, end, centerX, centerY, 310.0f, true);
+        //设置动画持续时间
         rotation.setDuration(500);
         rotation.setFillAfter(true);
+        //定义用于平滑动画运动的时间内插
         rotation.setInterpolator(new AccelerateInterpolator());
+        //监听器 重置mPosition
         rotation.setAnimationListener(new DisplayNextView(position));
-
+        //开始动画
         mContainer.startAnimation(rotation);
     }
-
+    
+    /**
+     * 点击listview中的Item触发
+     * position 判断展示的图片
+     */
     public void onItemClick(AdapterView parent, View v, int position, long id) {
         // Pre-load the image then start the animation
+    	//设置ImageView设置图片
         mImageView.setImageResource(PHOTOS_RESOURCES[position]);
         applyRotation(position, 0, 90);
     }
@@ -137,6 +147,7 @@ public class Transition3d extends Activity implements
     /**
      * This class is responsible for swapping the views and start the second
      * half of the animation.
+     * 交换两个画面
      */
     private final class SwapViews implements Runnable {
         private final int mPosition;
