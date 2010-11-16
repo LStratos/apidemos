@@ -98,7 +98,11 @@ public class Transition3d extends Activity implements
         //设置动画持续时间
         rotation.setDuration(500);
         rotation.setFillAfter(true);
-        //定义用于平滑动画运动的时间内插
+        /**
+         * 动画的进度使用 Interpolator 控制，android 提供了几个 Interpolator 子类，实现了不同的速度曲线.
+         * 如LinearInterpolator 实现了匀速效果、 Accelerateinterpolator 实现了加速效果、
+         * DecelerateInterpolator 实现了减速效果
+         */
         rotation.setInterpolator(new AccelerateInterpolator());
         //监听器 重置mPosition
         rotation.setAnimationListener(new DisplayNextView(position));
