@@ -1,7 +1,7 @@
 1.解析之后直接将数据写入DB
   添加定制的Topic表
   提供定制的Topic的存储（包括父topic和其子Topic）
-
+  <新闻、博客>采用相同操作
   修改位置
   1.添加ParentId字段（区分父Topic和子Topic）
      存：解析父Topic并将ParentId赋值为0写入数据库
