@@ -1,0 +1,83 @@
+===== 1.删除Android中的地图支持 =====
+	1.com.fojapalm.android.ad.AdMapAct.java
+	2.com.fojapalm.android.ad.AdActionAct.showMap（）
+	3.com.fojapalm.android.ad.AdShow.buildAction()
+	       adImage.setOnClickListener()
+	                  case 9:
+	**//                    String map[] = ad.getActionParam().split(",");**
+	**//                    adactionact.showMap(map[0], map[1], map[2], map[3]);**
+	                    break;
+	
+	4.AndroidManifest.xml
+	   <activity android:name=".ad.AdMapAct">
+				<intent-filter>
+					<action android:name="android.intent.action.MAIN" />
+				</intent-filter>
+	   </activity>
+
+
+===== 2.修改资源 =====
+	1.桌面图标 :Drawle/logo.png
+	2.开机画面 :Drawle/welcome.jpg
+	3.关于标题 :取消版本号 SingleDesktopAct
+
+		AlertDialog aboutDialog = new AlertDialog.Builder(SingleDesktopAct.this)
+		                    .setTitle("欢迎您使用“挖挖资讯”\n").setView(v).setMessage(
+		                            "每天挖一挖，尽知天下事。\n\n多定制，多搜索，乐趣无穷\n\n第一次使用时，请您先开始阅读").create
+
+
+===== 3.窗口顶部添加返回键 =====
+	在以下页面添加：
+		**桌面 SingleDesktopAct**
+		**文章列表 ArticlesListAct**
+		**定制 SettingsAct **
+		**收藏 FavArticlesListAct **
+		**搜索 SearchResultAct **
+		**热点 HotspotAct **
+
+
+===     1.在onCreate()方法中添加 ===
+	        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+	        setContentView(View); 
+	        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.view_title);
+	        TextView titleTextView = (TextView) findViewById(R.id.title_text);
+	        titleTextView.setText("挖挖资讯 - 热点"); //根据不同的页面做对应的修改
+	        Button titleButton = (Button) findViewById(R.id.back);
+	        titleButton.setOnClickListener(new OnClickListener() {
+	    		
+	    		@Override
+	    		public void onClick(View v) {
+	    			// TODO Auto-generated method stub
+	    			act.finish();
+	    		}
+	    	});  
+
+
+===     2.viewtitle 修改为 ===
+			<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				android:id="@+id/screen"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent"
+				android:orientation="horizontal">	
+             
+				<Button android:id="@+id/back" 
+				        android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_centerVertical="true"
+					android:textSize="14px"
+					android:text="@string/title_back"/>
+
+				<TextView android:id="@+id/title_text"
+				  android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+				        android:layout_centerInParent="true"
+					android:text="@string/app_name"
+					android:textSize="20px"
+					android:textColor="#FFFFFF"
+					android:layout_weight="0" [[/>]]
+			
+			</RelativeLayout>
+
+
+===     3.String.xml中添加按钮上文字 ===
+			<string name="title_back"><![CDATA[<  返回 ]]></string>
